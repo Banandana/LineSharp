@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C35BD498-D20F-4336-9B6D-FA45C761C7D0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LineSharp</RootNamespace>
+    <AssemblyName>LineSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Thrift">
+      <HintPath>.\Thrift.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ContactEnums.cs" />
+    <Compile Include="Common\Contact.cs" />
+    <Compile Include="Common\DelegateArgTypes.cs" />
+    <Compile Include="Common\Group.cs" />
+    <Compile Include="Common\Location.cs" />
+    <Compile Include="Common\Message.cs" />
+    <Compile Include="Common\MessageEnums.cs" />
+    <Compile Include="Common\Profile.cs" />
+    <Compile Include="Common\Result.cs" />
+    <Compile Include="Common\Room.cs" />
+    <Compile Include="Functions\Serial.cs" />
+    <Compile Include="Functions\Auth.cs" />
+    <Compile Include="Functions\Bytes.cs" />
+    <Compile Include="Functions\Exception.cs" />
+    <Compile Include="Functions\Net.cs" />
+    <Compile Include="gen-csharp\Announcement.cs" />
+    <Compile Include="gen-csharp\ApplicationType.cs" />
+    <Compile Include="gen-csharp\AuthQrcode.cs" />
+    <Compile Include="gen-csharp\CarrierCode.cs" />
+    <Compile Include="gen-csharp\Coin.cs" />
+    <Compile Include="gen-csharp\CoinHistory.cs" />
+    <Compile Include="gen-csharp\CoinHistoryCondition.cs" />
+    <Compile Include="gen-csharp\CoinHistoryResult.cs" />
+    <Compile Include="gen-csharp\CoinPayLoad.cs" />
+    <Compile Include="gen-csharp\CoinProductItem.cs" />
+    <Compile Include="gen-csharp\CoinPurchaseReservation.cs" />
+    <Compile Include="gen-csharp\CompactContact.cs" />
+    <Compile Include="gen-csharp\Contact.cs" />
+    <Compile Include="gen-csharp\ContactModification.cs" />
+    <Compile Include="gen-csharp\ContactRegistration.cs" />
+    <Compile Include="gen-csharp\ContactRelation.cs" />
+    <Compile Include="gen-csharp\ContactReport.cs" />
+    <Compile Include="gen-csharp\ContactReportResult.cs" />
+    <Compile Include="gen-csharp\ContactSetting.cs" />
+    <Compile Include="gen-csharp\ContactStatus.cs" />
+    <Compile Include="gen-csharp\ContactType.cs" />
+    <Compile Include="gen-csharp\ContentType.cs" />
+    <Compile Include="gen-csharp\CustomMode.cs" />
+    <Compile Include="gen-csharp\DeviceInfo.cs" />
+    <Compile Include="gen-csharp\EmailConfirmation.cs" />
+    <Compile Include="gen-csharp\EmailConfirmationSession.cs" />
+    <Compile Include="gen-csharp\EmailConfirmationStatus.cs" />
+    <Compile Include="gen-csharp\EmailConfirmationType.cs" />
+    <Compile Include="gen-csharp\ErrorCode.cs" />
+    <Compile Include="gen-csharp\FeatureType.cs" />
+    <Compile Include="gen-csharp\Geolocation.cs" />
+    <Compile Include="gen-csharp\Group.cs" />
+    <Compile Include="gen-csharp\IdentityCredential.cs" />
+    <Compile Include="gen-csharp\IdentityProvider.cs" />
+    <Compile Include="gen-csharp\Location.cs" />
+    <Compile Include="gen-csharp\LoginResult.cs" />
+    <Compile Include="gen-csharp\LoginResultType.cs" />
+    <Compile Include="gen-csharp\LoginSession.cs" />
+    <Compile Include="gen-csharp\Message.cs" />
+    <Compile Include="gen-csharp\MIDType.cs" />
+    <Compile Include="gen-csharp\ModificationType.cs" />
+    <Compile Include="gen-csharp\NotificationStatus.cs" />
+    <Compile Include="gen-csharp\NotificationType.cs" />
+    <Compile Include="gen-csharp\Operation.cs" />
+    <Compile Include="gen-csharp\OpStatus.cs" />
+    <Compile Include="gen-csharp\OpType.cs" />
+    <Compile Include="gen-csharp\PayloadType.cs" />
+    <Compile Include="gen-csharp\PaymentPgType.cs" />
+    <Compile Include="gen-csharp\PaymentReservation.cs" />
+    <Compile Include="gen-csharp\PaymentReservationResult.cs" />
+    <Compile Include="gen-csharp\PaymentType.cs" />
+    <Compile Include="gen-csharp\Product.cs" />
+    <Compile Include="gen-csharp\ProductBannerLinkType.cs" />
+    <Compile Include="gen-csharp\ProductEventType.cs" />
+    <Compile Include="gen-csharp\ProductList.cs" />
+    <Compile Include="gen-csharp\ProductSimple.cs" />
+    <Compile Include="gen-csharp\ProductSimpleList.cs" />
+    <Compile Include="gen-csharp\Profile.cs" />
+    <Compile Include="gen-csharp\ProfileAttribute.cs" />
+    <Compile Include="gen-csharp\ProximityMatchCandidateResult.cs" />
+    <Compile Include="gen-csharp\RegisterWithSnsIdResult.cs" />
+    <Compile Include="gen-csharp\Room.cs" />
+    <Compile Include="gen-csharp\RSAKey.cs" />
+    <Compile Include="gen-csharp\Settings.cs" />
+    <Compile Include="gen-csharp\SettingsAttribute.cs" />
+    <Compile Include="gen-csharp\ShopService.cs" />
+    <Compile Include="gen-csharp\SnsFriend.cs" />
+    <Compile Include="gen-csharp\SnsFriendContactRegistration.cs" />
+    <Compile Include="gen-csharp\SnsFriendModification.cs" />
+    <Compile Include="gen-csharp\SnsIdType.cs" />
+    <Compile Include="gen-csharp\SnsIdUserStatus.cs" />
+    <Compile Include="gen-csharp\SpammerReason.cs" />
+    <Compile Include="gen-csharp\SyncActionType.cs" />
+    <Compile Include="gen-csharp\SyncCategory.cs" />
+    <Compile Include="gen-csharp\SystemConfiguration.cs" />
+    <Compile Include="gen-csharp\TalkException.cs" />
+    <Compile Include="gen-csharp\TalkService.cs" />
+    <Compile Include="gen-csharp\Ticket.cs" />
+    <Compile Include="gen-csharp\TMessageBox.cs" />
+    <Compile Include="gen-csharp\TMessageBoxWrapUp.cs" />
+    <Compile Include="gen-csharp\TMessageBoxWrapUpResponse.cs" />
+    <Compile Include="gen-csharp\UserAuthStatus.cs" />
+    <Compile Include="gen-csharp\VerificationMethod.cs" />
+    <Compile Include="gen-csharp\VerificationResult.cs" />
+    <Compile Include="gen-csharp\VerificationSessionData.cs" />
+    <Compile Include="gen-csharp\WapInvitation.cs" />
+    <Compile Include="gen-csharp\WapInvitationType.cs" />
+    <Compile Include="LineClient.cs" />
+    <Compile Include="Net\LineTransport.cs" />
+    <Compile Include="Globals\Protocol.cs" />
+    <Compile Include="Globals\URL.cs" />
+    <Compile Include="Net\PushClient.cs" />
+    <Compile Include="OperationHandler.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
