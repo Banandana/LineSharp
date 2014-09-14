@@ -15,3 +15,5 @@ TODO:
 Unfortunately, this project was not created with a specific purpose in mind. Because of that, it can be used for many different things, including bots, creation of a custom client, etc.
 
 If there are features you wish to see in this implementation, submit a pull request or ask. It could be simple, or it could be incredibly complex. It's typically the former.
+
+- Banandana
