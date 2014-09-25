@@ -28,7 +28,7 @@ namespace LineSharp
 
             line.OnReceiveMessage += (o, eventArgs) => Console.WriteLine(eventArgs.Message.Text);
             
-            line.Login("Banandana@live.com", "lineapi");
+            line.Login("USERNAME", "PASSWORD");
             while (true) line.Update();
             //Console.Read();
             //Line.Logout();
