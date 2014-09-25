@@ -31,6 +31,7 @@ namespace LineSharp.Net
 
         public LineTransport(string userAgent, string application)
         {
+            Debug.Print("[LineTransport] Creating line transport with useragent=" + userAgent + " and application=" + application);
             _userAgent = userAgent;
             _lineApplication = application;
         }
@@ -70,20 +71,22 @@ namespace LineSharp.Net
 
             //Only send and ask for a reply if there
             //is actually data that needs to be sent
+
+            Debug.Print("[LineTransport] Attempting to flush the LineTransport.");
             if (_writeStream.Length > 0)
             {
+                
                 //Dump the writestream into an array of bytes to be sent
                 byte[] data = _writeStream.ToArray();
+
+                Debug.Print("[LineTransport] Attempting to flush with byte length of " + data.Length + ", accesskey of " + AccessKey + 
+                    ", X-LS of " + _lsnumber + " and URL of " + TargetUrl);
 
                 //Create the request
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(TargetUrl);
 
                 //It's a post request, like everything else.
                 request.Method = "POST";
-
-                //We long poll, etc in the push client so there's no timeout.
-                //We should get a 410 GONE response anyways
-                request.Timeout = Int32.MaxValue;
 
                 request.UserAgent = Protocol.UserAgent;
 
@@ -110,9 +113,11 @@ namespace LineSharp.Net
                 dataStream.Write(data, 0, data.Length);
                 dataStream.Flush();
                 dataStream.Close();
-
+                Debug.Print("[LineTransport] Flushing and attempting to get a response.");
                 //Get a response.
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                Debug.Print("[LineTransport] Got a response of size " + response.ContentLength + ", reading from stream...");
 
                 //Get the response code, if it's not 200, log it and retry
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -126,7 +131,7 @@ namespace LineSharp.Net
                 byte[] resp = new byte[response.ContentLength];
 
                 Stream responseStream = response.GetResponseStream();
-
+                Debug.Print("[LineTransport] Stream read complete, returning to the read buffer!");
                 int read_count = 0;
                 while (read_count < response.ContentLength)
                 {
@@ -138,12 +143,15 @@ namespace LineSharp.Net
                 _readStream = new MemoryStream(resp);
                 _writeStream = new MemoryStream();
             }
+            else
+                Debug.Print("[LineTransport] Data length not long enough to warrant a flush.");
         }
 
         public override void Write(byte[] buf, int off, int len)
         {
             if (_writeStream == null || !_writeStream.CanWrite)
             {
+                Debug.Print("[LineTransport] Refreshing writestream!");
                 _writeStream = new MemoryStream();
             }
 
@@ -154,6 +162,7 @@ namespace LineSharp.Net
         {
             if (_readStream == null || !_readStream.CanWrite)
             {
+                Debug.Print("[LineTransport] Refreshing readstream!");
                 _readStream = new MemoryStream(_response);
             }
             return _readStream.Read(buf, off, len);

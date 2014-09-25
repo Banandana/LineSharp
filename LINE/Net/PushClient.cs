@@ -44,6 +44,7 @@ namespace LineSharp.Net
         private int count = 0;
         public byte[] CallApi(string URL, byte[] data)
         {
+            Debug.Print("[PushClient] Calling an API function using a byte array of " + data.Length + " and a URL of " + URL);
             while (true)
             {
                 //Create the request
@@ -81,9 +82,11 @@ namespace LineSharp.Net
                 dataStream.Write(data, 0, data.Length);
                 dataStream.Flush();
                 dataStream.Close();
-
+                Debug.Print("[PushClient] Sending request...");
                 //Get a response.
                 HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+
+                Debug.Print("[PushClient] Acquired response from request, data length is " + response.ContentLength);
 
                 //Get the response code, if it's not 200, log it and retry
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -97,7 +100,7 @@ namespace LineSharp.Net
                 }
 
                 //At this point, only a 200 will survive.
-
+                Debug.Print("[PushClient] Reading response bytestream...");
                 byte[] resp = new byte[response.ContentLength];
 
                 Stream responseStream = response.GetResponseStream();
@@ -107,7 +110,7 @@ namespace LineSharp.Net
                 {
                     read_count += responseStream.Read(resp, read_count, (int)response.ContentLength - read_count);
                 }
-
+                Debug.Print("[PushClient] Finished reading, closing stream.");
                 responseStream.Close();
 
                 //We copy the byte[] response

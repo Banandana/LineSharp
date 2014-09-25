@@ -1,0 +1,7 @@
+C:\Users\mc146u24\Desktop\LineSharp-master\LINE\bin\Debug\LineSharp.exe.config
+C:\Users\mc146u24\Desktop\LineSharp-master\LINE\bin\Debug\LineSharp.exe
+C:\Users\mc146u24\Desktop\LineSharp-master\LINE\bin\Debug\LineSharp.pdb
+C:\Users\mc146u24\Desktop\LineSharp-master\LINE\bin\Debug\Thrift.dll
+C:\Users\mc146u24\Desktop\LineSharp-master\LINE\obj\Debug\LineSharp.csprojResolveAssemblyReference.cache
+C:\Users\mc146u24\Desktop\LineSharp-master\LINE\obj\Debug\LineSharp.exe
+C:\Users\mc146u24\Desktop\LineSharp-master\LINE\obj\Debug\LineSharp.pdb
