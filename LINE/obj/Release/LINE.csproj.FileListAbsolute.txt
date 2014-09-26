@@ -1,7 +1,0 @@
-C:\Users\Casey\Desktop\LINE\LINE\LINE\bin\Release\LINE.exe.config
-C:\Users\Casey\Desktop\LINE\LINE\LINE\bin\Release\LINE.exe
-C:\Users\Casey\Desktop\LINE\LINE\LINE\bin\Release\LINE.pdb
-C:\Users\Casey\Desktop\LINE\LINE\LINE\bin\Release\Thrift.dll
-C:\Users\Casey\Desktop\LINE\LINE\LINE\obj\Release\LINE.exe
-C:\Users\Casey\Desktop\LINE\LINE\LINE\obj\Release\LINE.pdb
-C:\Users\Casey\Desktop\LINE\LINE\LINE\obj\Release\LINE.csprojResolveAssemblyReference.cache
