@@ -8,6 +8,7 @@ using System.Text;
 using LineSharp.Datatypes;
 using LineSharp.Functions;
 using LineSharp.Globals;
+using LineSharp.Json_Datatypes;
 using LineSharp.Net;
 using Thrift.Protocol;
 using Contact = LineSharp.Common.Contact;
@@ -51,11 +52,18 @@ namespace LineSharp
 
         private string _email;
 
-        public delegate void PinVerifiedEvent(Result result);
+        public delegate void PinVerifiedEvent(Result result, string verifier);
 
         private string _pin;
 
         private string _verifier;
+
+        private string _certificate;
+
+        public string Certificate
+        {
+            get { return _certificate; }
+        }
 
         public string Pin
         {
@@ -82,7 +90,12 @@ namespace LineSharp
 
         public event LoggedInEvent OnLogin;
 
-        public void Login(string Email, string Password)
+        public void Login(string username, string password)
+        {
+            Login(username, password, null);
+        }
+
+        public void Login(string Email, string Password, string verifierToken)
         {
             _email = Email;
             //Sets the email var for possible future reference, not required atm
@@ -207,16 +220,20 @@ namespace LineSharp
             LoginResult authResponse = null;
             try
             {
-                authResponse =
-                    Client.loginWithIdentityCredentialForCertificate(
-                        IdentityProvider.LINE, //We're using LineSharp
-                        keyName, //This is the username
-                        Bytes.GetHexStringFromByteArray(cypher), //Hashed password
-                        true, //Keep us logged in
-                        Functions.Net.GetLocalIpAddress(), //Location of login
-                        Environment.MachineName, //Idenfitier
-                        null //Certificate, but who knows what that does
-                        );
+                if (String.IsNullOrEmpty(verifierToken))
+                    authResponse =
+                        Client.loginWithIdentityCredentialForCertificate(
+                            IdentityProvider.LINE, //We're using LineSharp
+                            keyName, //This is the username
+                            Bytes.GetHexStringFromByteArray(cypher), //Hashed password
+                            true, //Keep us logged in
+                            Functions.Net.GetLocalIpAddress(), //Location of login
+                            Environment.MachineName, //Idenfitier
+                            null //Certificate, but who knows what that does
+                            );
+                else
+                    authResponse =
+                        Client.loginWithVerifierForCertificate(verifierToken);
             }
             catch (TalkException talkException)
             {
@@ -225,33 +242,43 @@ namespace LineSharp
             }
 
             //The actual authresponse contains info about wether or not the user authed successfully!
-            if (authResponse != null && !String.IsNullOrEmpty(authResponse.AuthToken))
+            if (authResponse != null)
             {
-                //Successfully retrieved an access key
-                _accesskey = authResponse.AuthToken;
-                _thriftTransport.AccessKey = authResponse.AuthToken;
-                _thriftTransport.TargetUrl = URL.TalkService;
+                //Store the certificate if we get one.
+                if (!String.IsNullOrEmpty(authResponse.Certificate))
+                {
+                    _certificate = authResponse.Certificate;
+                }
+
+                //If we have an auth token, then deal with that and return
+                if (!String.IsNullOrEmpty(authResponse.AuthToken))
+                {
+                    //Successfully retrieved an access key
+                    _accesskey = authResponse.AuthToken;
+                    _thriftTransport.AccessKey = authResponse.AuthToken;
+                    _thriftTransport.TargetUrl = URL.TalkService;
 
 
-                //Don't know which should come first.
-                _operationHandler.Start();
-                //Starts listening to events, then calls the OnLogin function.
-                if (OnLogin != null) OnLogin.Invoke(Result.OK);
-                return;
+                    //Don't know which should come first.
+                    _operationHandler.Start();
+                    //Starts listening to events, then calls the OnLogin function.
+                    if (OnLogin != null) OnLogin.Invoke(Result.OK);
+                    return;
+                }
+                //Otherwise we probably have a verifier. use that to verify and
+                //do the auth procedure again.
+                if (!String.IsNullOrEmpty(authResponse.Verifier) &&
+                    !String.IsNullOrEmpty(authResponse.PinCode))
+                {
+                    //Props to Wii for having this issue that needed to be fixed.
+                    //This means the client needs a pin to verify the user.
+
+                    _verifier = authResponse.Verifier;
+                    _pin = authResponse.PinCode;
+
+                    if (OnLogin != null) OnLogin.Invoke(Result.REQUIRES_PIN_VERIFICATION);
+                }
             }
-
-            if (authResponse != null && !String.IsNullOrEmpty(authResponse.Verifier) &&
-                !String.IsNullOrEmpty(authResponse.PinCode))
-            {
-                //Props to Wii for having this issue that needed to be fixed.
-                //This means the client needs a pin to verify the user.
-
-                _verifier = authResponse.Verifier;
-                _pin = authResponse.PinCode;
-
-                if (OnLogin != null) OnLogin.Invoke(Result.REQUIRES_PIN_VERIFICATION);
-            }
-
             if (OnLogin != null) OnLogin.Invoke(Result.UNKNOWN_ERROR);
         }
 
@@ -259,7 +286,79 @@ namespace LineSharp
 
         public void VerifyPin()
         {
-            
+            Debug.Print("[PinVerification] Attempting to verify pin #" + _pin);
+            Debug.Print("[PinVerification] This will hang until the user uses the mobile LINE client to verify the PIN.");
+            //Create the request
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL.Q);
+
+            //It's a post and we're going to send data
+            request.Method = "GET";
+
+            //We have no content length because we're not sending data,
+            request.ContentLength = 0;
+
+            //Identifies the client
+            request.Headers.Add("X-Line-Application: " + Protocol.LineApplication);
+            ((HttpWebRequest)request).UserAgent = Protocol.UserAgent;
+
+            //THIS IS THE CRITICAL PART
+            //WE ADD THE VERIFIER RECIEVED IN THE LOGIN RESPONSE TO THE X-LINE-ACCESS
+            request.Headers.Add("X-Line-Access: " + _verifier);
+
+
+            HttpWebResponse webResponse = null;
+
+            //Honestly not the best implementation but to be honest, this function itself has never failed.
+            try
+            {
+                //Get the response, which is the key and whatnot to encrypt user auth data
+                webResponse = (HttpWebResponse)request.GetResponse();
+            }
+            catch
+            {
+                if (OnPinVerified != null) OnPinVerified.Invoke(Result.UNKNOWN_ERROR, "");
+                return; //Result.UNKNOWN_ERROR
+            }
+
+            Debug.Print("[PinVerification] Retrieved response from server. Reading datastream." + 
+                "(Content-Length: " + webResponse.ContentLength + ")");
+            var reader = new BinaryReader(webResponse.GetResponseStream());
+            //Create the stream for the body data
+
+            //The buffer size should be the same as the actual size of the body
+            var buffer = new byte[webResponse.ContentLength];
+
+            //Reads all the data from the stream
+            reader.Read(buffer, 0, Convert.ToInt32(webResponse.ContentLength));
+
+            //And closes the stream
+            webResponse.Close();
+
+            //Converts it to text
+            string response = Encoding.UTF8.GetString(buffer);
+
+            Debug.Print("[PinVerification] Serializing PinVerificationResponse.");
+            //Turn that into a deserialized class we can read from.
+            PinVerificationResponse pin_verified = PinVerificationResponse.FromJSON(response);
+
+            //If the result is null, obv not successful.      //If the verifier exists, we're kosher
+            if (pin_verified.Result != null && !String.IsNullOrEmpty(pin_verified.Result.Verifier) && !String.IsNullOrEmpty(pin_verified.ErrorCode))
+            {
+                Debug.Print("[PinVerification] Verified pin successfully. Verification: " + pin_verified.Result.Verifier);
+                //We got a verifier token. Reauth with this token as a parameter
+                //The TOKEN IS DIFFERENT FROM THE _verifier VARIABLE, THIS IS THE RESPONSE OF PROCESSING THAT.
+                if (OnPinVerified != null) OnPinVerified.Invoke(Result.OK, pin_verified.Result.Verifier);
+                return;//Success
+            }
+            else
+            {
+                Debug.Print("[PinVerification] Didn't verify pin successfully? Reply:");
+                Debug.Print("Error code: " + pin_verified.ErrorCode);
+                Debug.Print("Error message: " + pin_verified.ErrorMessage);
+            }
+
+            if (OnPinVerified != null) OnPinVerified.Invoke(Result.UNKNOWN_ERROR, "");
+            return; //Result.UNKNOWN_ERROR
         }
 
         public void Logout()

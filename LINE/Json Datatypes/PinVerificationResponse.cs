@@ -9,9 +9,21 @@ using Newtonsoft.Json;
 
 namespace LineSharp.Json_Datatypes
 {
+    //This section is for the json response when entering a pin.
+
     [DataContract]
     class PinVerificationResponse
     {
+        [DataContract]
+        public class PinVerification_Result
+        {
+            [DataMember(Name = "verifier")]
+            public string Verifier
+            {
+                get;
+                set;
+            }
+        }
         internal static PinVerificationResponse FromJSON(string json)
         {
             if (json == null) return null;
@@ -20,24 +32,25 @@ namespace LineSharp.Json_Datatypes
             return JsonConvert.DeserializeObject<PinVerificationResponse>(json);
         }
         [DataMember(Name = "timestamp")]
-        string Timestamp
+        public string Timestamp
         {
             get; set;
         }
         [DataMember(Name = "errorCode")]
-        string ErrorCode
+        public string ErrorCode
         {
             get; set;
         }
         [DataMember(Name = "errorMessage")]
-        string ErrorMessage
+        public string ErrorMessage
         {
             get; set;
         }
-        [DataMember(Name = "verifier")]
-        string Verifier
+        [DataMember(Name = "result")]
+        public PinVerification_Result Result
         {
             get; set;
         }
+
     }
 }

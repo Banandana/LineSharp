@@ -2,6 +2,7 @@
 using System;
 using System.Data.Odbc;
 using LineSharp;
+using LineSharp.Json_Datatypes;
 
 namespace LineSharp
 {
@@ -22,8 +23,13 @@ namespace LineSharp
                 else if (loginResult == Result.REQUIRES_PIN_VERIFICATION)
                 {
                     //The user then is required to enter the pin (retrieved from calling
-                    string PIN = line.Pin;
+                    string pin = line.Pin;
                     //)
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Verify your account on your mobile device using PIN: " + pin);
+                    Console.WriteLine("It times out after about 3 minutes.");
+                    Console.ForegroundColor = ConsoleColor.White;
 
                     //Then call this function, then enter the pin on the mobile device.
                     line.VerifyPin();
@@ -39,10 +45,18 @@ namespace LineSharp
                 
             });
 
-            line.OnPinVerified += new LineClient.PinVerifiedEvent((Result pinVerifiedResult) =>
+            line.OnPinVerified += new LineClient.PinVerifiedEvent((Result pinVerifiedResult, string verifierToken) =>
             {
                 //The pin was verified, or it had timed out???
+                if (pinVerifiedResult == Result.OK)
+                {
+                    //Success. Log in using this. After logging in this way, if there's a certificate, you should
+                    //save that somewhere and use it to log in again, because apparently it's nice not to have to 
+                    //verify your pin every single time. I'll implement logging in and using a cert later though.
 
+                    line.Login("USERNAME", "PASSWORD", verifierToken);
+                    // :P
+                }
 
             });
 
