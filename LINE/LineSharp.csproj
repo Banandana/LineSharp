@@ -147,6 +147,7 @@
     <Compile Include="gen-csharp\VerificationSessionData.cs" />
     <Compile Include="gen-csharp\WapInvitation.cs" />
     <Compile Include="gen-csharp\WapInvitationType.cs" />
+    <Compile Include="Globals\Debug.cs" />
     <Compile Include="LineClient.cs" />
     <Compile Include="Net\LineTransport.cs" />
     <Compile Include="Globals\Protocol.cs" />

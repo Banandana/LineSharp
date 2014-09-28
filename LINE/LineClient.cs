@@ -51,6 +51,20 @@ namespace LineSharp
 
         private string _email;
 
+        private string _pin;
+
+        private string _verifier;
+
+        public string Pin
+        {
+            get { return _pin; }
+        }
+
+        public string Verifier
+        {
+            get { return _verifier; }
+        }
+
         public string Email
         {
             get { return _email; }
@@ -209,7 +223,7 @@ namespace LineSharp
             }
 
             //The actual authresponse contains info about wether or not the user authed successfully!
-            if (authResponse != null && authResponse.AuthToken != null && authResponse.AuthToken != "")
+            if (authResponse != null && !String.IsNullOrEmpty(authResponse.AuthToken))
             {
                 //Successfully retrieved an access key
                 _accesskey = authResponse.AuthToken;
@@ -222,6 +236,18 @@ namespace LineSharp
                 //Starts listening to events, then calls the OnLogin function.
                 if (OnLogin != null) OnLogin.Invoke(Result.OK);
                 return;
+            }
+
+            if (authResponse != null && !String.IsNullOrEmpty(authResponse.Verifier) &&
+                !String.IsNullOrEmpty(authResponse.PinCode))
+            {
+                //Props to Wii for having this issue that needed to be fixed.
+                //This means the client needs a pin to verify the user.
+
+                _verifier = authResponse.Verifier;
+                _pin = authResponse.PinCode;
+
+                if (OnLogin != null) OnLogin.Invoke(Result.REQUIRES_PIN_VERIFICATION);
             }
 
             if (OnLogin != null) OnLogin.Invoke(Result.UNKNOWN_ERROR);
