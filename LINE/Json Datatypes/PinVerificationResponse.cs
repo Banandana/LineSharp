@@ -20,8 +20,13 @@ namespace LineSharp.Json_Datatypes
             [DataMember(Name = "verifier")]
             public string Verifier
             {
-                get;
-                set;
+                get; set;
+            }
+
+            [DataMember(Name = "authPhase")]
+            public string AuthPhase
+            {
+                get; set;
             }
         }
         internal static PinVerificationResponse FromJSON(string json)

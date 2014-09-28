@@ -83,8 +83,28 @@ namespace LineSharp.Net
                 dataStream.Flush();
                 dataStream.Close();
                 Debug.Print("[PushClient] Sending request...");
-                //Get a response.
-                HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+
+                HttpWebResponse response = null;
+
+                try
+                {
+                    //Get a response.
+                    response = (HttpWebResponse)request.GetResponse();
+                }
+                catch (WebException e)
+                {
+                    if (((HttpWebResponse) e.Response).StatusCode == HttpStatusCode.Gone)
+                    {
+
+                        //Do it again. A 410 Gone signifies that the client needs
+                        //to refresh the request as the server has no events that
+                        //have taken place.
+                        Debug.Print("[PushClient] A long polling request returned status code 410, resending request...");
+                        return CallApi(URL, data);
+                    }
+                    Debug.Print("[PushClient] Something bad actually happened! Report this.");
+                    throw;
+                }
 
                 Debug.Print("[PushClient] Acquired response from request, data length is " + response.ContentLength);
 

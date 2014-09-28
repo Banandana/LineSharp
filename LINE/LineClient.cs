@@ -277,6 +277,7 @@ namespace LineSharp
                     _pin = authResponse.PinCode;
 
                     if (OnLogin != null) OnLogin.Invoke(Result.REQUIRES_PIN_VERIFICATION);
+                    return;
                 }
             }
             if (OnLogin != null) OnLogin.Invoke(Result.UNKNOWN_ERROR);
@@ -342,7 +343,10 @@ namespace LineSharp
             PinVerificationResponse pin_verified = PinVerificationResponse.FromJSON(response);
 
             //If the result is null, obv not successful.      //If the verifier exists, we're kosher
-            if (pin_verified.Result != null && !String.IsNullOrEmpty(pin_verified.Result.Verifier) && !String.IsNullOrEmpty(pin_verified.ErrorCode))
+            if (pin_verified.Result != null &&
+                !String.IsNullOrEmpty(pin_verified.Result.Verifier) &&
+                !String.IsNullOrEmpty(pin_verified.Result.AuthPhase) &&
+                pin_verified.Result.AuthPhase.Equals("QRCODE_VERIFIED"))
             {
                 Debug.Print("[PinVerification] Verified pin successfully. Verification: " + pin_verified.Result.Verifier);
                 //We got a verifier token. Reauth with this token as a parameter
