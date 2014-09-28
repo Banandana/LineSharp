@@ -35,5 +35,10 @@ namespace LineSharp.Globals
         {
             get { return Root + "/S4"; }
         }
+
+        internal static string Q
+        {
+            get { return Root + "/Q"; }
+        }
     }
 }

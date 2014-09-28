@@ -33,8 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>JSON.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -148,6 +153,7 @@
     <Compile Include="gen-csharp\WapInvitation.cs" />
     <Compile Include="gen-csharp\WapInvitationType.cs" />
     <Compile Include="Globals\Debug.cs" />
+    <Compile Include="Json Datatypes\PinVerificationResponse.cs" />
     <Compile Include="LineClient.cs" />
     <Compile Include="Net\LineTransport.cs" />
     <Compile Include="Globals\Protocol.cs" />

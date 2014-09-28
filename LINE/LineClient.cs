@@ -51,6 +51,8 @@ namespace LineSharp
 
         private string _email;
 
+        public delegate void PinVerifiedEvent(Result result);
+
         private string _pin;
 
         private string _verifier;
@@ -251,6 +253,13 @@ namespace LineSharp
             }
 
             if (OnLogin != null) OnLogin.Invoke(Result.UNKNOWN_ERROR);
+        }
+
+        public event PinVerifiedEvent OnPinVerified;
+
+        public void VerifyPin()
+        {
+            
         }
 
         public void Logout()

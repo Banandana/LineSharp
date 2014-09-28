@@ -10,6 +10,7 @@ namespace LineSharp
     [DefaultValue(OK)]
     public enum Result
     {
+        PIN_TIMEOUT = -4,
         REQUIRES_PIN_VERIFICATION = -3,
         UNKNOWN_ERROR = -2,
         OK = -1,
