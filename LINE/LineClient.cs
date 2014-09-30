@@ -147,28 +147,35 @@ namespace LineSharp
             //Don't try to read it, it's really bad
 
             //Remove brackets
-            var fields = new List<string>();
-            response = response.Replace("{", "").Replace("}", "");
+            //var fields = new List<string>();
+            //response = response.Replace("{", "").Replace("}", "");
 
-            for (int i = 0; i < response.Length - 1; i++)
+            //for (int i = 0; i < response.Length - 1; i++)
+            //{
+            //    if (response.Substring(i, 1) == "\"")
+            //    {
+            //        //Gets the next quote location
+            //        int nextquote = 0;
+            //        for (int j = response.Length - 1; j > i; j--)
+            //        {
+            //            if (response.Substring(j, 1) == "\"")
+            //            {
+            //                nextquote = j;
+            //            }
+            //        }
+            //        string nextfield = (response.Substring(i + 1, nextquote - i - 1));
+            //        if (nextfield != "," && nextfield != ":") fields.Add(nextfield);
+            //    }
+            //}
+
+            KeyPostResponse keys = KeyPostResponse.FromJSON(response);
+
+            if (keys == null)
             {
-                if (response.Substring(i, 1) == "\"")
-                {
-                    //Gets the next quote location
-                    int nextquote = 0;
-                    for (int j = response.Length - 1; j > i; j--)
-                    {
-                        if (response.Substring(j, 1) == "\"")
-                        {
-                            nextquote = j;
-                        }
-                    }
-                    string nextfield = (response.Substring(i + 1, nextquote - i - 1));
-                    if (nextfield != "," && nextfield != ":") fields.Add(nextfield);
-                }
+                Debug.Print("Unable to parse RSA/session key response. This is a critical error. Exiting.");
+                OnLogin.Invoke(Result.UNKNOWN_ERROR);
+                return;
             }
-
-            //If it breaks, fuck it. I'll switch to Newtonsoft's JSON parser but until then, this is one less dependency.
 
             //The format of the response is:
             //convoluted.
@@ -179,8 +186,8 @@ namespace LineSharp
 
             //This is industry standard and in other web services, is done via Javascript.
 
-            string sessionKey = fields[fields.IndexOf("session_key") + 1];
-            string rsaData = fields[fields.IndexOf("rsa_key") + 1];
+            string sessionKey = keys.SessionKey;
+            string rsaData = keys.RSAKey;
 
             string keyName = rsaData.Split(',')[0];
             string modulus = rsaData.Split(',')[1]; //Public key
