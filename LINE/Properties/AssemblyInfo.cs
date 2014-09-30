@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LINE")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("LineSharp")]
+[assembly: AssemblyDescription("A library for interacting with LINE's Talk Service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LINE")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyProduct("LineSharp")]
+[assembly: AssemblyCopyright("Copyright ©  2014 Banandana")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
