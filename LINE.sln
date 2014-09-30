@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LineSharp", "LINE\LineSharp.csproj", "{C35BD498-D20F-4336-9B6D-FA45C761C7D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationViewer", "OperationViewer\OperationViewer.csproj", "{08D63D1B-5C03-477F-9B0A-EE021E32646E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{C35BD498-D20F-4336-9B6D-FA45C761C7D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C35BD498-D20F-4336-9B6D-FA45C761C7D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C35BD498-D20F-4336-9B6D-FA45C761C7D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08D63D1B-5C03-477F-9B0A-EE021E32646E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08D63D1B-5C03-477F-9B0A-EE021E32646E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08D63D1B-5C03-477F-9B0A-EE021E32646E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08D63D1B-5C03-477F-9B0A-EE021E32646E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

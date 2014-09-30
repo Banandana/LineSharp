@@ -285,13 +285,13 @@ namespace LineSharp
     }
     public class ReceiveMessageEventArgs : EventArgs
     {
-        public Message Message
+        public Common.Message Message
         {
             get; set;
         }
         public ReceiveMessageEventArgs(Message m)
         {
-            Message = m;
+            Message = new Common.Message(m);
         }
     }
     public class SendMessageReceiptEventArgs : EventArgs
