@@ -40,6 +40,8 @@ ehthumbs.db
 Thumbs.db
 *.cache
 
+*.suo
+
 #Folders
 
 **/bin/Debug/

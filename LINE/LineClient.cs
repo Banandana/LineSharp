@@ -173,7 +173,7 @@ namespace LineSharp
             if (keys == null)
             {
                 Debug.Print("Unable to parse RSA/session key response. This is a critical error. Exiting.");
-                OnLogin.Invoke(Result.UNKNOWN_ERROR);
+                if (OnLogin != null) OnLogin.Invoke(Result.UNKNOWN_ERROR);
                 return;
             }
 
@@ -348,6 +348,13 @@ namespace LineSharp
             Debug.Print("[PinVerification] Serializing PinVerificationResponse.");
             //Turn that into a deserialized class we can read from.
             PinVerificationResponse pin_verified = PinVerificationResponse.FromJSON(response);
+
+            if (pin_verified == null)
+            {
+                Debug.Print("Unable to parse pin verification response. This is a critical error. Exiting.");
+                if (OnPinVerified != null) OnPinVerified.Invoke(Result.UNKNOWN_ERROR, "");
+                return;
+            }
 
             //If the result is null, obv not successful.      //If the verifier exists, we're kosher
             if (pin_verified.Result != null &&
