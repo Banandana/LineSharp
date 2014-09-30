@@ -5,7 +5,7 @@ This is a C# implementation of the LINE protocol. It's currently a WORK IN PROGR
 
 The actual repository containing some info about the protocol can be found elsewhere.
 
-This implementation is fairly simple, as can be seen by the main function in Program.cs.
+This implementation is fairly simple. I have another repository that contains an actual example of implementation.
 
 TODO:
  - Finish callbacks on operation functions
