@@ -846,6 +846,20 @@ namespace LineSharp
 
         #region Functions
 
+        //Basic function to send messages.
+        public Common.Message SendMessage(string target, string message)
+        {
+            
+            var message_resp = Client.sendMessage(0,
+                new Message()
+                {
+                    Text = message,
+                    To = target
+                });
+
+            return new Common.Message(message_resp);
+        }
+
         public Profile GetProfile()
         {
             return new Profile(Client.getProfile());

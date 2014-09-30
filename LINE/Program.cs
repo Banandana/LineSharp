@@ -1,7 +1,9 @@
 ﻿//Author MID: #REDACTED
 using System;
+using System.Collections.Generic;
 using System.Data.Odbc;
 using LineSharp;
+using LineSharp.Common;
 using LineSharp.Json_Datatypes;
 
 namespace LineSharp
@@ -18,6 +20,15 @@ namespace LineSharp
                 if (loginResult == Result.OK)
                 {
                     Console.WriteLine("Authed successfully!");
+                    List <Contact> ct = line.GetContacts(line.GetContactIDs());
+
+                    for (int i = 0; i < ct.Count; i++)
+                    {
+                        if (ct[i].Name.Contains("Casey"))
+                        {
+                            line.SendMessage(ct[i].ID, "Hi!");
+                        }
+                    }
                 }
                     //Phone verification needed
                 else if (loginResult == Result.REQUIRES_PIN_VERIFICATION)
@@ -61,7 +72,7 @@ namespace LineSharp
             });
 
             line.OnReceiveMessage += (o, eventArgs) => Console.WriteLine(eventArgs.Message.Text);
-            
+
             line.Login("USERNAME", "PASSWORD");
             while (true) line.Update();
             //Console.Read();

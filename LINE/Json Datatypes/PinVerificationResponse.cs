@@ -34,7 +34,19 @@ namespace LineSharp.Json_Datatypes
             if (json == null) return null;
             Debug.Print("[PinVerificationResponse] Attempting to deserialize JSON response:");
             Debug.Print(json);
-            return JsonConvert.DeserializeObject<PinVerificationResponse>(json);
+            try
+            {
+                return JsonConvert.DeserializeObject<PinVerificationResponse>(json);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("[PinVerificationResponse] Parsing of PinVerificationResponse failed:");
+                Debug.Print(e.Message);
+                Debug.Print(e.Source);
+                Debug.Print(e.StackTrace);
+                throw;
+            }
+            return null;
         }
         [DataMember(Name = "timestamp")]
         public string Timestamp
