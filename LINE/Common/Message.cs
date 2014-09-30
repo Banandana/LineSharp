@@ -7,7 +7,7 @@ using LineSharp.Datatypes;
 
 namespace LineSharp.Common
 {
-    class Message
+    public class Message
     {
         private Datatypes.Message wrapper;
 

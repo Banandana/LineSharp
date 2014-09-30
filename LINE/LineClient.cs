@@ -18,7 +18,7 @@ using Room = LineSharp.Common.Room;
 
 namespace LineSharp
 {
-    internal class LineClient
+    public class LineClient
     {
         private readonly OperationHandler _operationHandler;
         private readonly LineTransport _thriftTransport;

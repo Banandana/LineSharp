@@ -8,7 +8,7 @@ using LineSharp.Datatypes;
 
 namespace LineSharp
 {
-    internal class LineDelegates
+    public class LineDelegates
     {
         
     }

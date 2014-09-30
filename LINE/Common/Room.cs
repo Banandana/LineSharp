@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LineSharp.Common
 {
-    class Room
+    public class Room
     {
         private Datatypes.Room wrapper;
         internal Room(Datatypes.Room room)

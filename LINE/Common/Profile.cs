@@ -1,6 +1,6 @@
 ﻿namespace LineSharp.Common
 {
-    internal class Profile
+    public class Profile
     {
         private readonly Datatypes.Profile wrapper;
 

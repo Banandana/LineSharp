@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LineSharp.Common
 {
-    class Contact
+    public class Contact
     {
         private Datatypes.Contact wrapper;
         internal Contact(Datatypes.Contact contact)

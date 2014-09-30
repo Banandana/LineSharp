@@ -1,6 +1,6 @@
 ﻿namespace LineSharp.Common
 {
-    internal class Group
+    public class Group
     {
         private readonly Datatypes.Group wrapper;
 
