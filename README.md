@@ -1,3 +1,6 @@
+This is in no way sponsored, endorsed or administered by, or associated with LINE Corp.
+None of the code on this repository has been copied, modified, or derived from LINE Corp's source code, nor does this project intend or condone such acts. If you believe the source code or any other content has violated existing copyrights, please contact the administrator of this repository via email at admin@banandana.com.
+
 This is a C# implementation of the LINE protocol. It's currently a WORK IN PROGRESS and I've written it entirely on my own. It's been my personal project for over a year, and it wouldn't exist if it wasn't for the following people:
 
  - Lumpio
