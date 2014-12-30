@@ -290,6 +290,20 @@ namespace LineSharp
             if (OnLogin != null) OnLogin.Invoke(Result.UNKNOWN_ERROR);
         }
 
+        public void TokenLogin(string authToken)
+        {
+            _accesskey = authToken;
+            _thriftTransport.AccessKey = authToken;
+            _thriftTransport.TargetUrl = URL.TalkService;
+
+
+            //Don't know which should come first.
+            _operationHandler.Start();
+            //Starts listening to events, then calls the OnLogin function.
+            if (OnLogin != null) OnLogin.Invoke(Result.OK);
+            return;
+        }
+
         public event PinVerifiedEvent OnPinVerified;
 
         public void VerifyPin()
