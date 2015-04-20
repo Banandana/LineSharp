@@ -1,3 +1,5 @@
+# No longer in development.
+
 This is in no way sponsored, endorsed or administered by, or associated with LINE Corp.
 None of the code on this repository has been copied, modified, or derived from LINE Corp's source code, nor does this project intend or condone such acts. The responsibility of the usage of this repository lies with the users and the author cannot be held liable for his or her users' actions. If you believe the source code or any other content has violated existing copyrights, please contact the administrator of this repository via email at admin@banandana.com
 
