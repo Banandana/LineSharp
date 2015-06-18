@@ -17,12 +17,20 @@ namespace LineSharp.Functions
             return bytes.ToArray();
         }
 
+        //Thanks to Evance for fixing this function
         internal static byte[] GetExponentFromString(string exponent)
         {
-            var exp = new byte[exponent.Length/2];
-            for (int i = 0; i < exponent.Length/2; i++)
+            double ExponentLen_Double = Convert.ToDouble(exponent.Length) / 2;
+            int ExponentByteCount = Convert.ToInt16(Math.Ceiling(ExponentLen_Double));
+            if (ExponentByteCount != exponent.Length)
             {
-                if (exponent.Substring(i*2, 2) == "01")
+                exponent = "0" + exponent;
+            }
+
+            byte[] exp = new byte[ExponentByteCount];
+            for (int i = 0; i < ExponentByteCount; i++)
+            {
+                if (exponent.Substring(i * 2, 2) == "01")
                 {
                     exp[i] = 1;
                 }
