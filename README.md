@@ -1,4 +1,6 @@
-# Too much has changed in LINE's api to where I don't have the time or tools to generate the thrift definitions from source. This is dead for the time being. Don't email me about it please!
+# Too much has changed in LINE's protocol to where I WILL NOT update this library. It DOES NOT WORK anymore, and it WILL NOT BE FIXED.
+
+This library is still hosted on github for historical and documentation purposes and is no longer useful for new development.
 
 This is in no way sponsored, endorsed or administered by, or associated with LINE Corp.
 None of the code on this repository has been copied, modified, or derived from LINE Corp's source code, nor does this project intend or condone such acts. The responsibility of the usage of this repository lies with the users and the author cannot be held liable for his or her users' actions. If you believe the source code or any other content has violated existing copyrights, please contact the administrator of this repository via email at admin@banandana.com
