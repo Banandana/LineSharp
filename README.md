@@ -1,6 +1,6 @@
 # Too much has changed in LINE's protocol to where I WILL NOT update this library. It DOES NOT WORK anymore, and it WILL NOT BE FIXED.
 
-# EDIT: I might be looking into this again as it might be possible to fix. No promises. - Banandana (Dec 1, 2016)
+# EDIT: It seems the apache thrift structures embedded in the java code are programmed/encoded differently. Not sure if regenerating an RPC document is possible at this point. (12-04-16)
 
 This library is still hosted on github for historical and documentation purposes and is no longer useful for new development.
 
